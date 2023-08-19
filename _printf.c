@@ -40,7 +40,7 @@ int _printf(const char *format, ...)
                 default:
                     break;
             }
-            ++i; // Move past the conversion specifier
+            ++i;
         } else {
             putchar(format[i]);
             ++count;
