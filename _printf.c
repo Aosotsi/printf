@@ -6,19 +6,20 @@
  *
  * Return: number of chars printed.
  */
-
 int _printf(const char *format, ...)
 {
     int i;
     int count = 0;
-
     va_list args;
 
     va_start(args, format);
 
-    for (i = 0; format[i] != '\0'; ++i) {
-        if (format[i] == '%') {
-            switch (format[i + 1]) {
+    for (i = 0; format[i] != '\0'; ++i)
+    {
+        if (format[i] == '%')
+        {
+            switch (format[i + 1])
+            {
                 case 'c':
                     putchar(va_arg(args, int));
                     ++count;
@@ -38,7 +39,9 @@ int _printf(const char *format, ...)
                     break;
             }
             ++i;
-        } else {
+        } 
+        else
+        {
             putchar(format[i]);
             ++count;
         }
