@@ -2,83 +2,80 @@
 
 /**
  * print_int - prints an integer
- * @args_list: va_list of arguments from _printf
- * @format_flags: pointer to the struct flags determining
- *               if a flag is passed to _printf
+ * @l: va_list of arguments from _printf
+ * @f: pointer to the struct flags 
  * Return: number of char printed
  */
-int print_int(va_list args_list, flags_t *format_flags)
+int print_int(va_list l, flags_t *f)
 {
-	int number = va_arg(args_list, int);
-	int result = count_digits(number);
+	int num = va_arg(l, int);
+	int res = count_digit(num);
 
-	if (format_flags->space == 1 && format_flags->plus == 0 && number >= 0)
-		result += _putchar(' ');
-	if (format_flags->plus == 1 && number >= 0)
-		result += _putchar('+');
-	if (number <= 0)
-		result++;
-	print_number_recursive(number);
-	return (result);
+	if (f->space == 1 && f->plus == 0 && num >= 0)
+		res += _putchar(' ');
+	if (f->plus == 1 && num >= 0)
+		res += _putchar('+');
+	if (num <= 0)
+		res++;
+	print_number(num);
+	return (res);
 }
 
 /**
  * print_unsigned - prints an unsigned integer
- * @args_list: va_list of arguments from _printf
- * @format_flags: pointer to the struct flags determining
- *               if a flag is passed to _printf
+ * @l: va_list of arguments from _printf
+ * @f: pointer to the struct flags
  * Return: number of char printed
  */
-int print_unsigned(va_list args_list, flags_t *format_flags)
+int print_unsigned(va_list l, flags_t *f)
 {
-	unsigned int unsigned_num = va_arg(args_list, unsigned int);
-	char *str_representation = convert_to_string(unsigned_num, 10, 0);
+	unsigned int u = va_arg(l, unsigned int);
+	char *str = convert(u, 10, 0);
 
-	(void)format_flags;
-	return (_puts(str_representation));
+	(void)f;
+	return (_puts(str));
 }
 
 /**
- * print_number_recursive - helper function that recursively
- * prints all digits of an integer
- * @number: integer to be printed
+ * print_number - helper function
+ * @n: integer to be printed
  */
-void print_number_recursive(int number)
+void print_number(int n)
 {
-	unsigned int positive_value;
+	unsigned int n1;
 
-	if (number < 0)
+	if (n < 0)
 	{
 		_putchar('-');
-		positive_value = -number;
+		n1 = -n;
 	}
 	else
-		positive_value = number;
+		n1 = n;
 
-	if (positive_value / 10)
-		print_number_recursive(positive_value / 10);
-	_putchar((positive_value % 10) + '0');
+	if (n1 / 10)
+		print_number(n1 / 10);
+	_putchar((n1 % 10) + '0');
 }
 
 /**
- * count_digits - returns the number of digits in an integer
+ * count_digit - returns the number of digits in an integer
  * for _printf
- * @integer: integer to evaluate
+ * @i: integer to evaluate
  * Return: number of digits
  */
-int count_digits(int integer)
+int count_digit(int i)
 {
-	unsigned int digit_count = 0;
-	unsigned int abs_value;
+	unsigned int d = 0;
+	unsigned int u;
 
-	if (integer < 0)
-		abs_value = -integer;
+	if (i < 0)
+		u = i * -1;
 	else
-		abs_value = integer;
-	while (abs_value != 0)
+		u = i;
+	while (u != 0)
 	{
-		abs_value /= 10;
-		digit_count++;
+		u /= 10;
+		d++;
 	}
-	return (digit_count);
+	return (d);
 }
