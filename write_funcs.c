@@ -6,6 +6,7 @@
  * @c: The character to print
  * Return: On success 1.
  * Description: _putchar uses a local buffer of 1024
+ */
 int _putchar(char c)
 {
 	static char buf[1024];
