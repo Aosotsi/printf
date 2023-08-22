@@ -1,52 +1,48 @@
 #include "main.h"
+#include <limits.h>
+#include <stdio.h>
 
 /**
- * _printf - formatted output conversion and print data.
- * @format: input string.
- *
- * Return: number of chars printed.
+ * _printf - prints to terminal and outputs by format
+ * @format: format string containing the characters and the specifiers
+ * Description: Calls getprint()
+ * Return: num chars printed
  */
 int _printf(const char *format, ...)
 {
-    int i;
-    int count = 0;
-    va_list args;
+	int (*pfunc)(va_list, flags_t *);
+	const char *putme;
+	va_list arguments;
+	flags_t flags = {0, 0, 0};
 
-    va_start(args, format);
+	register int count = 0;
 
-    for (i = 0; format[i] != '\0'; ++i)
-    {
-        if (format[i] == '%')
-        {
-            switch (format[i + 1])
-            {
-                case 'c':
-                    putchar(va_arg(args, int));
-                    ++count;
-                    break;
-				case 's': 
-				{
-				    const char *str_arg = va_arg(args, const char *);
-				    fputs(str_arg, stdout);
-				    count += strlen(str_arg);
-				    break;
-				}
-                case '%':
-                    putchar('%');
-                    ++count;
-                    break;
-                default:
-                    break;
-            }
-            ++i;
-        } 
-        else
-        {
-            putchar(format[i]);
-            ++count;
-        }
-    }
+	va_start(arguments, format);
+	if (!format || (format[0] == '%' && !format[1]))
+		return (-1);
+	if (format[0] == '%' && format[1] == ' ' && !format[2])
+		return (-1);
+	for (putme = format; *putme; putme++)
+	{
+		if (*putme == '%')
+		{
+			putme++;
+			if (*putme == '%')
+			{
+				count += _putchar('%');
+				continue;
+			}
+			while (get_flag(*putme, &flags))
+				putme++;
+			pfunc = get_print(*putme);
+			count += (pfunc)
+				? pfunc(arguments, &flags)
+				: _printf("%%%c", *putme);
+		} else
+			count += _putchar(*putme);
+	}
+	_putchar(-1);
+	va_end(arguments);
+	return (count);
 
-    va_end(args);
-    return count;
 }
