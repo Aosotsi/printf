@@ -40,4 +40,3 @@ int custom_puts(char *string)
 		custom_putchar(string[i]);
 	return (i);
 }
-
