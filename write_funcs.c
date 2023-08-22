@@ -2,41 +2,38 @@
 #include <unistd.h>
 
 /**
- * custom_putchar - writes the character c to stdout
- * @character: The character to print
+ * _putchar - writes the character c to stdout
+ * @c: The character to print
  * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
- * Description: custom_putchar uses a local buffer of 1024 to call write
- * as little as possible
- */
-int custom_putchar(char character)
+ * Description: _putchar uses a local buffer of 1024
+int _putchar(char c)
 {
-	static char buffer[1024];
-	static int index;
+	static char buf[1024];
+	static int i;
 
-	if (character == -1 || index >= 1024)
+	if (c == -1 || i >= 1024)
 	{
-		write(1, &buffer, index);
-		index = 0;
+		write(1, &buf, i);
+		i = 0;
 	}
-	if (character != -1)
+	if (c != -1)
 	{
-		buffer[index] = character;
-		index++;
+		buf[i] = c;
+		i++;
 	}
 	return (1);
 }
 
 /**
- * custom_puts - prints a string to stdout
- * @string: pointer to the string to print
+ * _puts - prints a string to stdout
+ * @str: pointer to the string to print
  * Return: number of chars written
  */
-int custom_puts(char *string)
+int _puts(char *str)
 {
 	register int i;
 
-	for (i = 0; string[i] != '\0'; i++)
-		custom_putchar(string[i]);
+	for (i = 0; str[i] != '\0'; i++)
+		_putchar(str[i]);
 	return (i);
 }
