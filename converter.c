@@ -25,4 +25,3 @@ char *convert(unsigned long int number, int base, int use_lowercase)
 
 	return (ptr);
 }
-
