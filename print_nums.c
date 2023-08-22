@@ -82,4 +82,3 @@ int count_digits(int integer)
 	}
 	return (digit_count);
 }
-
